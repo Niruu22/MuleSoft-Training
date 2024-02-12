@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="mulesoft-traning-session-1Flow" doc:id="e3bd16d6-6867-4e8c-84da-6092d7c002c6" >
+		<scheduler doc:name="Scheduler" doc:id="2ff8f62b-d834-4d61-ba3f-1075a22b472d">
+			<scheduling-strategy>
+				<fixed-frequency frequency="10" timeUnit="SECONDS" />
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger Niraj Yantra" doc:id="dce77216-b8d7-4d7e-acc6-8d01db573bd4" message="&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;flow triggered Scussfully&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"/>
+	</flow>
+</mule>

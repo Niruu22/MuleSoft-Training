@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4a6ace51-1624-4ab6-ac6a-66befe90b5c8" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="508d8102-7c07-402c-81ff-c46db858b4ba" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Mysql@22" database="mulesoft" />
+	</db:config>
+	<flow name="getFlightsByID" doc:id="10bd8289-4bd2-4c58-b94a-bc6f63552da6" >
+		<http:listener doc:name="Listener" doc:id="73d5fb9f-acaa-4c1d-88a2-fd50b81f510d" config-ref="HTTP_Listener_config" path="/emp" allowedMethods="GET"/>
+		<db:select doc:name="Select" doc:id="7e4da708-a769-413b-b5db-59411fac7293" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from emp;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="f2a2e712-d469-4243-9474-c3dec0ce78bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.FirstName
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
