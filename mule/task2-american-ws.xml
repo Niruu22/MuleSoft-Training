@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="33e2babc-1ce1-4e91-8ac4-e19c9a06a70b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="task2-american-wsFlow" doc:id="21a1066d-daa1-40db-9f26-ddae08c41856" >
+		<http:listener doc:name="Listener" doc:id="77014795-4cce-4d9e-ab57-53c040bc4bd4" config-ref="HTTP_Listener_config" path="/flights"/>
+		<set-payload value="flights info the information send successful" doc:name="Set Payload" doc:id="5565dade-0edb-4f6c-ba67-b537eb4c15f3" />
+	</flow>
+	
+</mule>

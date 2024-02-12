@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="82d74bd6-8c03-4e08-873d-bb0108c27b1a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="task-4-choice-routerFlow" doc:id="5b9ec5e2-ffd5-435d-abd3-80158b0b42cc" >
+		<http:listener doc:name="Listener" doc:id="402d1696-ae38-48e3-a7fe-ae9a7392a395" config-ref="HTTP_Listener_config" path="/choice"/>
+		<set-variable value="#[attributes.queryParams.langauge]" doc:name="Set Variable" doc:id="59f8c0a0-0f80-4668-bb3f-79c64406be7a" variableName="langauge"/>
+		<choice doc:name="Choice" doc:id="b4bf182e-6016-42d4-823e-06244f31f91d" >
+			<when expression='#[vars.langauge == "java"]'>
+				<set-payload value='"java language used if block executed"' doc:name="Set Payload" doc:id="3b03f2ef-e0d5-41ae-a97c-4c60c324912c" />
+			</when>
+			<when expression='#[vars.langauge == "cpp"]'>
+				<set-payload value='"Cpp blocked executed"' doc:name="Set Payload" doc:id="1fa2ad76-7734-44b4-8e04-1532692a57a9" />
+			</when>
+			<when expression='#[vars.langauge == "dataweave"]'>
+				<set-payload value='"Dataweave blocked is executed"' doc:name="Set Payload" doc:id="e69fb24d-7c08-43dc-91b7-3c7e1b847a8c" />
+			</when>
+			<when expression='#[vars.langauge == "javasript"]'>
+				<set-payload value='"JavaScript blocked executed"' doc:name="Set Payload" doc:id="d511759e-3965-4a40-b402-14273093470c" />
+			</when>
+			<otherwise >
+				<set-payload value='"default blocked executed"' doc:name="Set Payload" doc:id="a774cf5a-649e-4953-9d25-05ea93009814" />
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="4c921f58-9dc5-45cd-839a-d95102214245" message="#[payload]"/>
+	</flow>
+</mule>

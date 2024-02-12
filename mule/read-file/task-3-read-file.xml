@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="134214e9-359b-4e41-922a-25d87b982898" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="task-3-read-fileFlow" doc:id="bd9310fa-e966-4b8f-940e-fc9b5aa52348" >
+		<scheduler doc:name="Scheduler" doc:id="df90e967-39b6-48e4-8208-03f554fde46d" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="10" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="9442afae-07ca-413e-bd02-28f823edeb60" message='#["Start Job"]'/>
+		<file:read doc:name="Read" doc:id="03394c6b-0bb1-4a5e-b778-68c21cf10e73" config-ref="File_Config" path="D:\file_input\userDetails.csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="cbf52426-1601-482a-98e6-2e90911936cd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map(item , index)->
+{
+	"Emp_Id" : item .Id,
+	"Emp_First" : item.First,
+	"Emp_last" : item.Last
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="cb7e7776-b078-455d-8832-5303c1bf3b79" message='#["File read successfully"]'/>
+		<file:write doc:name="Write" doc:id="f3b535f1-6681-419c-b6a7-d87bb6bf1b89" config-ref="File_Config" path="D:\file_output\emp.json"/>
+	</flow>
+</mule>
